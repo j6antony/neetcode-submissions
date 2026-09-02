@@ -1,0 +1,27 @@
+class Solution:
+    def validTree(self, n: int, edges: List[List[int]]) -> bool:
+        if not n:
+            return True;
+        adj = {i: [] for i in range(n)}
+
+        for n1, n2, in edges:
+            adj[n1].append(n2)
+            adj[n2].append(n1)
+        
+        visited = set()
+        def dfs(last, i):
+            if i in visited:
+                return False
+            else:
+                visited.add(i)
+                for n in adj[i]:
+                    if n != last:
+                        if not dfs(i, n):
+                            return False
+                adj[i] = [last]
+                return True
+                
+
+        return dfs(-1, 0) and len(visited) == n
+
+                    
